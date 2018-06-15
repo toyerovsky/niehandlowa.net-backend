@@ -10,10 +10,12 @@ namespace niehandlowa.net.Bll.Services
         Task Create(POIModel model);
         Task Delete(int id);
         Task<List<POIModel>> GetAllPOIs();
-        Task<List<POIModel>> GetPOIsByTye(int type);
+        Task<List<POIModel>> GetPOIsByType(int type);
         Task<List<POIModel>> GetPOIsWithinDistance(double latitude, double longitude, int distance);
         Task<List<POIModel>> GetPOIsWithinDistanceByTypesList(double latitude, double longitude, int distance, List<int> types);
-        Task<bool> IsPOIOpenAtTime(int POIId, DateTime date, bool? nonTradeSunday);
+        Task<bool> IsPOIOpenAtTime(int POIId, DateTime date, bool? tradeSunday);
         Task Update(POIModel model);
+        Task<List<POIModel>> GetPOIsByTypesList(List<int> types);
+        Task<List<POIModel>> GetNowOpenPOIs();
     }
 }

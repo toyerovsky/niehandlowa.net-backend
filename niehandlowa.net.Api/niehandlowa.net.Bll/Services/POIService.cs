@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using GeoCoordinatePortable;
+using Microsoft.EntityFrameworkCore;
+using niehandlowa.net.Bll.Helpers;
 using niehandlowa.net.Bll.Models;
 using niehandlowa.net.Dal.Entities;
 using niehandlowa.net.Dal.UnitOfWork;
@@ -24,12 +26,12 @@ namespace niehandlowa.net.Bll.Services
 
         public async Task<List<POIModel>> GetAllPOIs()
         {
-            return _mapper.Map<List<POIModel>>(await _unitOfWork.POIRepository.GetAllAsync()).ToList();
+            return _mapper.Map<List<POIModel>>(await _unitOfWork.POIRepository.GetAllAsync(null, i => i.Include(p => p.OpeningHours))).ToList();
         }
 
-        public async Task<List<POIModel>> GetPOIsByTye(int type)
+        public async Task<List<POIModel>> GetPOIsByType(int type)
         {
-            return _mapper.Map<List<POIModel>>((await _unitOfWork.POIRepository.FindAllAsync(p => p.Type == type)).ToList());
+            return _mapper.Map<List<POIModel>>((await _unitOfWork.POIRepository.FindAllAsync(p => p.Type == type, null, i => i.Include(p => p.OpeningHours))).ToList());
         }
 
         public async Task<List<POIModel>> GetPOIsWithinDistance(double latitude, double longitude, int distance)
@@ -52,7 +54,7 @@ namespace niehandlowa.net.Bll.Services
         public async Task<List<POIModel>> GetPOIsWithinDistanceByTypesList(double latitude, double longitude, int distance, List<int> types)
         {
             var userCoordinates = new GeoCoordinate(latitude, longitude);
-            var poisByType = _mapper.Map<List<POIModel>>(await _unitOfWork.POIRepository.FindAllAsync(p => types.Contains(p.Type))).ToList();
+            var poisByType = _mapper.Map<List<POIModel>>(await _unitOfWork.POIRepository.FindAllAsync(p => types.Contains(p.Type), null, i => i.Include(p => p.OpeningHours))).ToList();
             List<POIModel> resultList = new List<POIModel>();
             foreach (var poi in poisByType)
             {
@@ -90,7 +92,7 @@ namespace niehandlowa.net.Bll.Services
             await _unitOfWork.ComitAsync();
         }
 
-        public async Task<bool> IsPOIOpenAtTime(int POIId, DateTime date, bool? nonTradeSunday)
+        public async Task<bool> IsPOIOpenAtTime(int POIId, DateTime date, bool? tradeSunday = null)
         {
             var day = date.DayOfWeek;
             int intDayOfWeek = 0;
@@ -115,7 +117,7 @@ namespace niehandlowa.net.Bll.Services
                     intDayOfWeek = 6;
                     break;
                 case DayOfWeek.Sunday:
-                    if (nonTradeSunday.Value)
+                    if (tradeSunday.Value)
                         intDayOfWeek = 7;
                     else
                         intDayOfWeek = 8;
@@ -141,6 +143,37 @@ namespace niehandlowa.net.Bll.Services
             {
                 return false;
             }
+        }
+
+        public async Task<List<POIModel>> GetPOIsByTypesList(List<int> types)
+        {
+            return _mapper.Map<List<POIModel>>(await _unitOfWork.POIRepository.FindAllAsync(p => types.Contains(p.Type), null, i => i.Include(p => p.OpeningHours))).ToList();
+        }
+
+        public async Task<List<POIModel>> GetNowOpenPOIs()
+        {
+            var allPois = await GetAllPOIs();
+            List<POIModel> resultList = new List<POIModel>();
+
+            DateTime nowTime = DateTime.Now;
+            foreach (var poi in allPois)
+            {
+                if (nowTime.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    if (await IsPOIOpenAtTime(poi.Id, nowTime, DayHelper.IsSundayTrading(nowTime)))
+                    {
+                        resultList.Add(poi);
+                    }
+                }
+                else
+                {
+                    if (await IsPOIOpenAtTime(poi.Id, nowTime))
+                    {
+                        resultList.Add(poi);
+                    }
+                }
+            }
+            return resultList;
         }
     }
 }

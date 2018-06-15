@@ -39,7 +39,7 @@ namespace niehandlowa.net.Api
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            //services.AddTransient<IPOISerice, POIService>();
+            services.AddTransient<IPOIService, POIService>();
 
             services.AddDbContext<NonTradeContext>(options =>
             {

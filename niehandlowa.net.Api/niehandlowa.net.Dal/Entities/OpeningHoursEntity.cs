@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -13,6 +14,7 @@ namespace niehandlowa.net.Dal.Entities
         public DateTime OpeningTime { get; set; }
         public DateTime ClosingTime { get; set; }
         public int POIId { get; set; }
+        [JsonIgnore]
         public virtual POIEntity POI { get; set; }
-}
+    }
 }

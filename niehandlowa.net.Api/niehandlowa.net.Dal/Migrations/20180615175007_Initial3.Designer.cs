@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using niehandlowa.net.Dal;
 
 namespace niehandlowa.net.Dal.Migrations
 {
     [DbContext(typeof(NonTradeContext))]
-    partial class NonTradeContextModelSnapshot : ModelSnapshot
+    [Migration("20180615175007_Initial3")]
+    partial class Initial3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,6 +59,8 @@ namespace niehandlowa.net.Dal.Migrations
                     b.Property<double>("Longitude");
 
                     b.Property<string>("Name");
+
+                    b.Property<string>("Owner");
 
                     b.Property<int>("Type");
 
