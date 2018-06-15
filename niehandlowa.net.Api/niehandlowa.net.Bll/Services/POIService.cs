@@ -175,5 +175,27 @@ namespace niehandlowa.net.Bll.Services
             }
             return resultList;
         }
+
+        public async Task GiveLikeForPOI(int id)
+        {
+            var POI = await _unitOfWork.POIRepository.FindAsync(id);
+            POI.LikesCount++;
+            await _unitOfWork.POIRepository.UpdateAsync(POI);
+            await _unitOfWork.ComitAsync();
+        }
+
+        public async Task GiveDislikeForPOI(int id)
+        {
+            var POI = await _unitOfWork.POIRepository.FindAsync(id);
+            POI.DislikesCount++;
+            await _unitOfWork.POIRepository.UpdateAsync(POI);
+            await _unitOfWork.ComitAsync();
+        }
+
+        public async Task<int> GetDifferenceLikesForPOI(int id)
+        {
+            var POI = await _unitOfWork.POIRepository.FindAsync(id);
+            return (POI.LikesCount - POI.DislikesCount);
+        }
     }
 }

@@ -17,5 +17,8 @@ namespace niehandlowa.net.Bll.Services
         Task Update(POIModel model);
         Task<List<POIModel>> GetPOIsByTypesList(List<int> types);
         Task<List<POIModel>> GetNowOpenPOIs();
+        Task GiveLikeForPOI(int id);
+        Task GiveDislikeForPOI(int id);
+        Task<int> GetDifferenceLikesForPOI(int id);
     }
 }

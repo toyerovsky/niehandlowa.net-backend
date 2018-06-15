@@ -88,5 +88,25 @@ namespace niehandlowa.net.Api.Controllers
         {
             return Ok(await _POIService.GetNowOpenPOIs());
         }
+
+        [HttpGet("GiveLikeForPOI/{id}")]
+        public async Task<IActionResult> GiveLikeForPOI([FromRoute] int id)
+        {
+            await _POIService.GiveLikeForPOI(id);
+            return Ok();
+        }
+
+        [HttpGet("GiveDislikeForPOI/{id}")]
+        public async Task<IActionResult> GiveDislikeForPOI([FromRoute] int id)
+        {
+            await _POIService.GiveDislikeForPOI(id);
+            return Ok();
+        }
+
+        [HttpGet("GetDifferenceLikesForPOI/{id}")]
+        public async Task<IActionResult> GetDifferenceLikesForPOI([FromRoute] int id)
+        {
+            return Ok(await _POIService.GetDifferenceLikesForPOI(id));
+        }
     }
 }
