@@ -1,6 +1,8 @@
-﻿namespace niehandlowa.net.Dal.Repository.POIRepository
+﻿using niehandlowa.net.Dal.Entities;
+
+namespace niehandlowa.net.Dal.Repository.POIRepository
 {
-    public interface IPOIRepository
+    public interface IPOIRepository : IBaseRepository<POIEntity>
     {
     }
 }

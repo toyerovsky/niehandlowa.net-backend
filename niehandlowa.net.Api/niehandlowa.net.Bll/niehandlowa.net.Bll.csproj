@@ -8,4 +8,9 @@
     <ProjectReference Include="..\niehandlowa.net.Dal\niehandlowa.net.Dal.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="7.0.0" />
+    <PackageReference Include="GeoCoordinate.NetCore" Version="1.0.0.1" />
+  </ItemGroup>
+
 </Project>
