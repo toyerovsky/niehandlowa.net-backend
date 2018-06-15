@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using niehandlowa.net.Dal;
+using Newtonsoft.Json;
 
 namespace niehandlowa.net.Api
 {

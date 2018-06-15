@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using MySql.Data.MySqlClient;
 
-namespace niehandlowa.net.Dal
+namespace niehandlowa.net.Dal.Context
 {
     public class NonTradeContextFactory : IDesignTimeDbContextFactory<NonTradeContext>
     {
