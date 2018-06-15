@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace niehandlowa.net.Bll.Services
 {
-    public class POIService
+    public class POIService : IPOIService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -88,6 +88,59 @@ namespace niehandlowa.net.Bll.Services
         {
             await _unitOfWork.POIRepository.UpdateAsync(_mapper.Map<POIModel>(model));
             await _unitOfWork.ComitAsync();
+        }
+
+        public async Task<bool> IsPOIOpenAtTime(int POIId, DateTime date, bool? nonTradeSunday)
+        {
+            var day = date.DayOfWeek;
+            int intDayOfWeek = 0;
+            switch (day)
+            {
+                case DayOfWeek.Monday:
+                    intDayOfWeek = 1;
+                    break;
+                case DayOfWeek.Tuesday:
+                    intDayOfWeek = 2;
+                    break;
+                case DayOfWeek.Wednesday:
+                    intDayOfWeek = 3;
+                    break;
+                case DayOfWeek.Thursday:
+                    intDayOfWeek = 4;
+                    break;
+                case DayOfWeek.Friday:
+                    intDayOfWeek = 5;
+                    break;
+                case DayOfWeek.Saturday:
+                    intDayOfWeek = 6;
+                    break;
+                case DayOfWeek.Sunday:
+                    if (nonTradeSunday.Value)
+                        intDayOfWeek = 7;
+                    else
+                        intDayOfWeek = 8;
+                    break;
+            }
+
+            var openingHours = await _unitOfWork.OpeningHoursRepository.FindAllAsync(o => o.POI.Id == POIId && o.DayOfWeek == intDayOfWeek);
+            if (!openingHours.Any())
+            {
+                return false;
+            }
+
+            DateTime openingHourUniversalTime = new DateTime(0, 0, 0, openingHours.First().OpeningTime.Hour, openingHours.First().OpeningTime.Minute, openingHours.First().OpeningTime.Second);
+            DateTime closingHourUniversalTime = new DateTime(0, 0, 0, openingHours.First().ClosingTime.Hour, openingHours.First().ClosingTime.Minute, openingHours.First().ClosingTime.Second);
+
+            DateTime userGivenTimeUniversalime = new DateTime(0, 0, 0, date.Hour, date.Minute, date.Second);
+
+            if (userGivenTimeUniversalime >= openingHourUniversalTime && userGivenTimeUniversalime <= closingHourUniversalTime)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

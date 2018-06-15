@@ -15,7 +15,8 @@ namespace niehandlowa.net.Dal.Entities
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public int Type { get; set; }
-        public int OpeningHoursId { get; set; }
         public virtual ICollection<OpeningHoursEntity> OpeningHours { get; set; }
+        public int LikesCount { get; set; }
+        public int DislikesCount { get; set; }
     }
 }

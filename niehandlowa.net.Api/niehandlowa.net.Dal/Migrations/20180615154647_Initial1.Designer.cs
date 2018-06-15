@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using niehandlowa.net.Dal;
 
 namespace niehandlowa.net.Dal.Migrations
 {
     [DbContext(typeof(NonTradeContext))]
-    partial class NonTradeContextModelSnapshot : ModelSnapshot
+    [Migration("20180615154647_Initial1")]
+    partial class Initial1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,7 +30,7 @@ namespace niehandlowa.net.Dal.Migrations
 
                     b.Property<DateTime>("OpeningTime");
 
-                    b.Property<int>("POIId");
+                    b.Property<int?>("POIId");
 
                     b.HasKey("Id");
 
@@ -54,6 +56,8 @@ namespace niehandlowa.net.Dal.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<int>("OpeningHoursId");
+
                     b.Property<string>("Owner");
 
                     b.Property<int>("Type");
@@ -67,8 +71,7 @@ namespace niehandlowa.net.Dal.Migrations
                 {
                     b.HasOne("niehandlowa.net.Dal.Entities.POIEntity", "POI")
                         .WithMany("OpeningHours")
-                        .HasForeignKey("POIId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("POIId");
                 });
 #pragma warning restore 612, 618
         }
