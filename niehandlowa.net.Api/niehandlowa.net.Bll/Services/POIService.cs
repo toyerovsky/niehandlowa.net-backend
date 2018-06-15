@@ -130,10 +130,10 @@ namespace niehandlowa.net.Bll.Services
                 return false;
             }
 
-            DateTime openingHourUniversalTime = new DateTime(0, 0, 0, openingHours.First().OpeningTime.Hour, openingHours.First().OpeningTime.Minute, openingHours.First().OpeningTime.Second);
-            DateTime closingHourUniversalTime = new DateTime(0, 0, 0, openingHours.First().ClosingTime.Hour, openingHours.First().ClosingTime.Minute, openingHours.First().ClosingTime.Second);
+            DateTime openingHourUniversalTime = new DateTime(2000, 1, 1, openingHours.First().OpeningTime.Hour, openingHours.First().OpeningTime.Minute, openingHours.First().OpeningTime.Second);
+            DateTime closingHourUniversalTime = new DateTime(2000, 1, 1, openingHours.First().ClosingTime.Hour, openingHours.First().ClosingTime.Minute, openingHours.First().ClosingTime.Second);
 
-            DateTime userGivenTimeUniversalime = new DateTime(0, 0, 0, date.Hour, date.Minute, date.Second);
+            DateTime userGivenTimeUniversalime = new DateTime(2000, 1, 1, date.Hour, date.Minute, date.Second);
 
             if (userGivenTimeUniversalime >= openingHourUniversalTime && userGivenTimeUniversalime <= closingHourUniversalTime)
             {
