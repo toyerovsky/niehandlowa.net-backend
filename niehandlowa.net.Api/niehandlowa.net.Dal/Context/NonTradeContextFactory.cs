@@ -18,7 +18,7 @@ namespace niehandlowa.net.Dal.Context
         private readonly string _connectionString;
 
         // add this to auto generate migrations
-        public NonTradeContextFactory() : this("")
+        public NonTradeContextFactory() : this("server=77.55.212.185;database=niehandlowa;Uid=hackatlon;Pwd=hackatlon;Convert Zero Datetime=True")
         {
 
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using niehandlowa.net.Dal.Entities;
 
 namespace niehandlowa.net.Dal
 {
@@ -8,6 +9,7 @@ namespace niehandlowa.net.Dal
         {
         }
 
-
+        public DbSet<POIEntity> POIEntities { get; set; }
+        public DbSet<OpeningHoursEntity> OpeningHours { get; set; }
     }
 }
