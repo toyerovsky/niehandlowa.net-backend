@@ -71,6 +71,7 @@ namespace niehandlowa.net.Api
             }
 
             app.UseMvc();
+            app.UseCors("AllowAnyOrigin");
         }
     }
 }

@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Cors;
 
 namespace niehandlowa.net.Api.Controllers
 {
-    [Route("api/poi")]
+    [Produces("application/json")]
+    [Route("api/[controller]")]
     [EnableCors("AllowAnyOrigin")]
     public class POIController : Controller
     {
@@ -78,7 +79,7 @@ namespace niehandlowa.net.Api.Controllers
             return Ok(await _POIService.GetPOIsWithinDistanceByTypesList(latitude, longtitude, distance, typesInts));
         }
 
-        [HttpPost("Update")]
+        [HttpPut("Update")]
         public async Task<IActionResult> Update([FromBody] POIModel model)
         {
             await _POIService.Update(model);
