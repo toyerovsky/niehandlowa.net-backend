@@ -6,10 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 
 namespace niehandlowa.net.Api.Controllers
 {
     [Route("api/poi")]
+    [EnableCors("AllowAnyOrigin")]
     public class POIController : Controller
     {
         private readonly IPOIService _POIService;
