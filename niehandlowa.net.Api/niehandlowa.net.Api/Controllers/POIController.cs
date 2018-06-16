@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using niehandlowa.net.Bll.Helpers;
 using niehandlowa.net.Bll.Models;
 using niehandlowa.net.Bll.Services;
 using System;
@@ -24,6 +25,12 @@ namespace niehandlowa.net.Api.Controllers
         {
             await _POIService.Create(model);
             return StatusCode(201);
+        }
+
+        [HttpGet("Get/{id}")]
+        public async Task<IActionResult> Get([FromRoute] int id)
+        {
+            return Ok(await _POIService.Get(id));
         }
 
         [HttpGet("getPOI")]
@@ -107,6 +114,18 @@ namespace niehandlowa.net.Api.Controllers
         public async Task<IActionResult> GetDifferenceLikesForPOI([FromRoute] int id)
         {
             return Ok(await _POIService.GetDifferenceLikesForPOI(id));
+        }
+
+        [HttpGet("IsNextSundayTrading")]
+        public IActionResult IsNextSundayTrading()
+        {
+            return Ok(DayHelper.IsNextSundayTrading());
+        }
+
+        [HttpGet("GetPOIsSortedByDistanceFromCoordinates/{latitude}/{longtitude}")]
+        public async Task<IActionResult> GetPOIsSortedByDistanceFromCoordinates([FromRoute] double latitude, [FromRoute] double longtitude)
+        {
+            return Ok(await _POIService.GetPOIsSortedByDistanceFromCoordinates(latitude, longtitude));
         }
     }
 }

@@ -145,6 +145,26 @@ namespace niehandlowa.net.Bll.Services
             }
         }
 
+        public async Task<List<POIModel>> GetPOIsSortedByDistanceFromCoordinates(double latitude, double longtitude)
+        {
+            var userCoordinates = new GeoCoordinate(latitude, longtitude);
+            var pois = await GetAllPOIs();
+
+            List<POIDistanceHelperModel> distanceHelperList = new List<POIDistanceHelperModel>();
+
+            foreach (var poi in pois)
+            {
+                var poiCoordinates = new GeoCoordinate(poi.Latitude, poi.Longitude);
+
+                distanceHelperList.Add(new POIDistanceHelperModel()
+                {
+                    Poi = poi,
+                    Distance = poiCoordinates.GetDistanceTo(userCoordinates)
+                });
+            }
+            return distanceHelperList.OrderBy(o => o.Distance).Select(s => s.Poi).ToList();
+        }
+
         public async Task<List<POIModel>> GetPOIsByTypesList(List<int> types)
         {
             return _mapper.Map<List<POIModel>>(await _unitOfWork.POIRepository.FindAllAsync(p => types.Contains(p.Type), null, i => i.Include(p => p.OpeningHours))).ToList();
@@ -196,6 +216,11 @@ namespace niehandlowa.net.Bll.Services
         {
             var POI = await _unitOfWork.POIRepository.FindAsync(id);
             return (POI.LikesCount - POI.DislikesCount);
+        }
+
+        public async Task<POIModel> Get(int id)
+        {
+            return _mapper.Map<POIModel>(await _unitOfWork.POIRepository.FindAsync(id));
         }
     }
 }

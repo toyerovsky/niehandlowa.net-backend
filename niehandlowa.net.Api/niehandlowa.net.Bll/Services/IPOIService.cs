@@ -20,5 +20,7 @@ namespace niehandlowa.net.Bll.Services
         Task GiveLikeForPOI(int id);
         Task GiveDislikeForPOI(int id);
         Task<int> GetDifferenceLikesForPOI(int id);
+        Task<POIModel> Get(int id);
+        Task<List<POIModel>> GetPOIsSortedByDistanceFromCoordinates(double latitude, double longtitude);
     }
 }
