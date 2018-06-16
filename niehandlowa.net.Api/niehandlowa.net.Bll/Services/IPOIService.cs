@@ -22,5 +22,6 @@ namespace niehandlowa.net.Bll.Services
         Task<int> GetDifferenceLikesForPOI(int id);
         Task<POIModel> Get(int id);
         Task<List<POIModel>> GetPOIsSortedByDistanceFromCoordinates(double latitude, double longtitude);
+        List<DateTime> GetAllNonTradingSundays();
     }
 }

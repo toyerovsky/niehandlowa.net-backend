@@ -35,12 +35,6 @@ namespace niehandlowa.net.Api.Controllers
             return Ok(await _POIService.Get(id));
         }
 
-        [HttpGet("getPOI")]
-        public async Task<IActionResult> GetPOI()
-        {
-            return Ok((await _POIService.GetAllPOIs()).First());
-        }
-
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
@@ -98,15 +92,15 @@ namespace niehandlowa.net.Api.Controllers
             return Ok(await _POIService.GetNowOpenPOIs());
         }
 
-        [HttpPut("GiveLikeForPOI/{id}")]
-        public async Task<IActionResult> GiveLikeForPOI([FromRoute] int id)
+        [HttpPut("GiveLikeForPOI")]
+        public async Task<IActionResult> GiveLikeForPOI([FromBody] int id)
         {
             await _POIService.GiveLikeForPOI(id);
             return Ok();
         }
 
-        [HttpPut("GiveDislikeForPOI/{id}")]
-        public async Task<IActionResult> GiveDislikeForPOI([FromRoute] int id)
+        [HttpPut("GiveDislikeForPOI")]
+        public async Task<IActionResult> GiveDislikeForPOI([FromBody] int id)
         {
             await _POIService.GiveDislikeForPOI(id);
             return Ok();
@@ -128,6 +122,12 @@ namespace niehandlowa.net.Api.Controllers
         public async Task<IActionResult> GetPOIsSortedByDistanceFromCoordinates([FromRoute] double latitude, [FromRoute] double longtitude)
         {
             return Ok(await _POIService.GetPOIsSortedByDistanceFromCoordinates(latitude, longtitude));
+        }
+
+        [HttpGet("GetAllNonTradingSundays")]
+        public IActionResult GetAllNonTradingSundays()
+        {
+            return Ok(_POIService.GetAllNonTradingSundays());
         }
     }
 }
