@@ -222,5 +222,15 @@ namespace niehandlowa.net.Bll.Services
         {
             return _mapper.Map<POIModel>(await _unitOfWork.POIRepository.FindAsync(id));
         }
+
+        public List<DateTime> GetAllNonTradingSundays()
+        {
+            List<DateTime> resultList = new List<DateTime>();
+            foreach (var nonTradingSunday in NonTradingSundaysStaticList.NonTradeSundaysList)
+            {
+                resultList.Add(new DateTime(2018, 1, 1).AddDays(nonTradingSunday - 1));
+            }
+            return resultList;
+        }
     }
 }
